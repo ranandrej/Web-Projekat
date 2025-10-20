@@ -74,7 +74,7 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             {isAuthenticated && (
               <div className="hidden lg:flex lg:gap-2">
-                {navItems.map((item) => {
+                {navItems.map(item => {
                   const Icon = item.icon
                   const active = isActive(item.to)
                   return (
@@ -86,8 +86,7 @@ const Navbar = () => {
                         active
                           ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg'
                           : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                      )}
-                    >
+                      )}>
                       <Icon className="h-4 w-4" />
                       {item.label}
                     </Link>
@@ -105,9 +104,7 @@ const Navbar = () => {
                 <Menu as="div" className="relative">
                   <Menu.Button className="flex items-center gap-3 px-4 py-2.5 rounded-2xl hover:bg-gray-100 transition-all duration-200">
                     <div className="h-10 w-10 rounded-[14px] bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center shadow-lg">
-                      <span className="text-white text-sm font-black">
-                        {user?.firstName?.[0]}{user?.lastName?.[0]}
-                      </span>
+                      <UserIcon className="text-white text-xs" height={30} />
                     </div>
                     <div className="hidden md:block text-left">
                       <div className="text-sm font-bold text-gray-900">
@@ -124,12 +121,13 @@ const Navbar = () => {
                     enterTo="transform opacity-100 scale-100"
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
+                    leaveTo="transform opacity-0 scale-95">
                     <Menu.Items className="absolute right-0 mt-3 w-72 origin-top-right bg-white rounded-[24px] shadow-2xl border border-gray-200 focus:outline-none overflow-hidden">
                       {/* User Info Header */}
                       <div className="px-6 py-5 bg-gradient-to-br from-violet-50 to-fuchsia-50 border-b border-gray-200">
-                        <div className="font-bold text-gray-900">{user?.firstName} {user?.lastName}</div>
+                        <div className="font-bold text-gray-900">
+                          {user?.firstName} {user?.lastName}
+                        </div>
                         <div className="text-sm text-gray-600 mt-1">{user?.email}</div>
                         {user?.roles && (
                           <div className="mt-3">
@@ -149,8 +147,7 @@ const Navbar = () => {
                               className={cn(
                                 'flex items-center gap-3 px-6 py-3 text-sm font-bold transition-colors',
                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                              )}
-                            >
+                              )}>
                               <UserIcon className="h-5 w-5" />
                               Profile Settings
                             </Link>
@@ -165,8 +162,7 @@ const Navbar = () => {
                                 className={cn(
                                   'flex items-center gap-3 px-6 py-3 text-sm font-bold transition-colors',
                                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                                )}
-                              >
+                                )}>
                                 <CogIcon className="h-5 w-5" />
                                 Admin Dashboard
                               </Link>
@@ -180,8 +176,7 @@ const Navbar = () => {
                                 className={cn(
                                   'flex items-center gap-3 px-6 py-3 text-sm font-bold transition-colors',
                                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                                )}
-                              >
+                                )}>
                                 <ChartBarIcon className="h-5 w-5" />
                                 Dashboard
                               </Link>
@@ -199,8 +194,7 @@ const Navbar = () => {
                               className={cn(
                                 'flex items-center gap-3 w-full px-6 py-3 text-sm font-bold transition-colors',
                                 active ? 'bg-red-50 text-red-700' : 'text-red-600'
-                              )}
-                            >
+                              )}>
                               <ArrowRightOnRectangleIcon className="h-5 w-5" />
                               Sign Out
                             </button>
@@ -214,8 +208,7 @@ const Navbar = () => {
                 {/* Mobile Menu Button */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="lg:hidden p-2 rounded-2xl hover:bg-gray-100 transition-colors"
-                >
+                  className="lg:hidden p-2 rounded-2xl hover:bg-gray-100 transition-colors">
                   {mobileMenuOpen ? (
                     <XMarkIcon className="h-6 w-6 text-gray-900" />
                   ) : (
@@ -226,14 +219,10 @@ const Navbar = () => {
             ) : (
               <div className="flex items-center gap-3">
                 <Link to="/login">
-                  <Button className="btn-secondary font-bold">
-                    Sign In
-                  </Button>
+                  <Button className="btn-secondary font-bold">Sign In</Button>
                 </Link>
                 <Link to="/register">
-                  <Button className="btn-primary font-bold">
-                    Get Started
-                  </Button>
+                  <Button className="btn-primary font-bold">Get Started</Button>
                 </Link>
               </div>
             )}
@@ -244,7 +233,7 @@ const Navbar = () => {
         {isAuthenticated && mobileMenuOpen && (
           <div className="lg:hidden pb-4 pt-2 border-t border-gray-200">
             <div className="flex flex-col space-y-2 mt-2">
-              {navItems.map((item) => {
+              {navItems.map(item => {
                 const Icon = item.icon
                 const active = isActive(item.to)
                 return (
@@ -257,8 +246,7 @@ const Navbar = () => {
                       active
                         ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg'
                         : 'text-gray-700 hover:bg-gray-100'
-                    )}
-                  >
+                    )}>
                     <Icon className="h-5 w-5" />
                     {item.label}
                   </Link>

@@ -11,9 +11,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CheckCircleIcon,
-  XCircleIcon,
   ChartBarIcon,
-  FireIcon,
   AcademicCapIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline'
@@ -75,21 +73,15 @@ const MyResults = () => {
   }
 
   const getScoreColor = (percentage: number) => {
-    if (percentage >= 80) return 'text-accent-600'
-    if (percentage >= 60) return 'text-warning-600'
-    return 'text-danger-600'
+    if (percentage >= 80) return 'text-indigo-700'
+    if (percentage >= 60) return 'text-yellow-700'
+    return 'text-red-600'
   }
 
   const getScoreBgColor = (percentage: number) => {
-    if (percentage >= 80) return 'bg-accent-50 border-accent-200'
-    if (percentage >= 60) return 'bg-warning-50 border-warning-200'
-    return 'bg-danger-50 border-danger-200'
-  }
-
-  const getScoreGradient = (percentage: number) => {
-    if (percentage >= 80) return 'from-accent-600 to-accent-500'
-    if (percentage >= 60) return 'from-warning-600 to-warning-500'
-    return 'from-danger-600 to-danger-500'
+    if (percentage >= 80) return 'bg-indigo-50 border-indigo-200'
+    if (percentage >= 60) return 'bg-yellow-50 border-yellow-200'
+    return 'bg-red-50 border-red-200'
   }
 
   const getScoreGrade = (percentage: number) => {
@@ -108,7 +100,7 @@ const MyResults = () => {
     return (
       <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center">
         <Spinner size="lg" />
-        <p className="mt-4 text-secondary-600 text-lg">Loading your results...</p>
+        <p className="mt-4 text-gray-500 text-lg">Loading your results...</p>
       </div>
     )
   }
@@ -121,94 +113,99 @@ const MyResults = () => {
   const bestScore = attempts.length > 0 ? Math.max(...attempts.map(a => a.percentage)) : 0
 
   return (
-    <div className="space-y-6 animate-fade-in-up">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="card-premium p-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-600 to-accent-600 shadow-glow">
-              <TrophyIcon className="h-10 w-10 text-white" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold text-secondary-900">My Results</h1>
-              <p className="text-lg text-secondary-600 mt-1">Track your quiz performance and progress</p>
-            </div>
+      <div className="bg-white shadow-sm rounded-xl p-6 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="p-3 rounded-lg bg-gray-100">
+            <TrophyIcon className="h-10 w-10 text-gray-600" />
           </div>
-          {totalAttempts > 0 && (
-            <Badge variant="primary" size="lg" className="gap-2">
-              <FireIcon className="h-5 w-5" />
-              {totalAttempts} Total Attempts
-            </Badge>
-          )}
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">My Results</h1>
+            <p className="text-gray-500 mt-1 text-sm">Track your quiz performance and progress</p>
+          </div>
         </div>
+        {totalAttempts > 0 && (
+          <Badge variant="secondary" size="lg" className="gap-2 bg-gray-100 text-gray-700">
+            <SparklesIcon className="h-5 w-5" />
+            {totalAttempts} Total Attempts
+          </Badge>
+        )}
       </div>
 
       {/* Stats Overview */}
       {totalAttempts > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="card-premium p-6 animate-scale-in">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-primary-600 to-primary-500 shadow-soft">
-                <ChartBarIcon className="h-6 w-6 text-white" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Total Attempts */}
+          <div className="bg-white shadow-sm rounded-xl p-4">
+            <div className="flex items-center gap-4 mb-2">
+              <div className="p-2 rounded-lg bg-gray-100">
+                <ChartBarIcon className="h-6 w-6 text-gray-600" />
               </div>
               <div>
-                <div className="text-sm text-secondary-600">Total Attempts</div>
-                <div className="text-3xl font-bold text-secondary-900">{totalAttempts}</div>
+                <div className="text-xs text-gray-500">Total Attempts</div>
+                <div className="text-xl font-bold text-gray-900">{totalAttempts}</div>
               </div>
             </div>
-            <div className="w-full bg-secondary-200 rounded-full h-2">
-              <div className="h-2 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full w-full" />
-            </div>
-          </div>
-
-          <div className="card-premium p-6 animate-scale-in" style={{ animationDelay: '50ms' }}>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-accent-600 to-accent-500 shadow-soft">
-                <TrophyIcon className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <div className="text-sm text-secondary-600">Average Score</div>
-                <div className="text-3xl font-bold text-secondary-900">{avgScore}%</div>
-              </div>
-            </div>
-            <div className="w-full bg-secondary-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 rounded-full h-1.5">
               <div
-                className="h-2 bg-gradient-to-r from-accent-600 to-accent-500 rounded-full transition-all duration-500"
+                className="h-1.5 rounded-full bg-gray-400 transition-all duration-500"
                 style={{ width: `${avgScore}%` }}
               />
             </div>
           </div>
 
-          <div className="card-premium p-6 animate-scale-in" style={{ animationDelay: '100ms' }}>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-warning-600 to-warning-500 shadow-soft">
-                <CheckCircleIcon className="h-6 w-6 text-white" />
+          {/* Average Score */}
+          <div className="bg-white shadow-sm rounded-xl p-4">
+            <div className="flex items-center gap-4 mb-2">
+              <div className="p-2 rounded-lg bg-gray-100">
+                <TrophyIcon className="h-6 w-6 text-gray-600" />
               </div>
               <div>
-                <div className="text-sm text-secondary-600">Passed (≥70%)</div>
-                <div className="text-3xl font-bold text-secondary-900">{passedCount}</div>
+                <div className="text-xs text-gray-500">Average Score</div>
+                <div className="text-xl font-bold text-gray-900">{avgScore}%</div>
               </div>
             </div>
-            <div className="w-full bg-secondary-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 rounded-full h-1.5">
               <div
-                className="h-2 bg-gradient-to-r from-warning-600 to-warning-500 rounded-full transition-all duration-500"
+                className="h-1.5 rounded-full bg-gray-400 transition-all duration-500"
+                style={{ width: `${avgScore}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Passed */}
+          <div className="bg-white shadow-sm rounded-xl p-4">
+            <div className="flex items-center gap-4 mb-2">
+              <div className="p-2 rounded-lg bg-gray-100">
+                <CheckCircleIcon className="h-6 w-6 text-gray-600" />
+              </div>
+              <div>
+                <div className="text-xs text-gray-500">Passed (≥70%)</div>
+                <div className="text-xl font-bold text-gray-900">{passedCount}</div>
+              </div>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-1.5">
+              <div
+                className="h-1.5 rounded-full bg-gray-400 transition-all duration-500"
                 style={{ width: `${totalAttempts > 0 ? (passedCount / totalAttempts) * 100 : 0}%` }}
               />
             </div>
           </div>
 
-          <div className="card-premium p-6 animate-scale-in" style={{ animationDelay: '150ms' }}>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-secondary-700 to-secondary-600 shadow-soft">
-                <AcademicCapIcon className="h-6 w-6 text-white" />
+          {/* Unique Quizzes */}
+          <div className="bg-white shadow-sm rounded-xl p-4">
+            <div className="flex items-center gap-4 mb-2">
+              <div className="p-2 rounded-lg bg-gray-100">
+                <AcademicCapIcon className="h-6 w-6 text-gray-600" />
               </div>
               <div>
-                <div className="text-sm text-secondary-600">Unique Quizzes</div>
-                <div className="text-3xl font-bold text-secondary-900">{uniqueQuizzes}</div>
+                <div className="text-xs text-gray-500">Unique Quizzes</div>
+                <div className="text-xl font-bold text-gray-900">{uniqueQuizzes}</div>
               </div>
             </div>
-            <Badge variant="secondary" className="mt-2 gap-1">
-              <FireIcon className="h-3 w-3" />
+            <Badge variant="secondary" className="mt-2 bg-gray-100 text-gray-700 gap-1">
+              <SparklesIcon className="h-3 w-3" />
               Best: {bestScore}%
             </Badge>
           </div>
@@ -216,108 +213,56 @@ const MyResults = () => {
       )}
 
       {/* Search */}
-      <div className="card-premium p-6">
-        <div className="relative">
-          <MagnifyingGlassIcon className="h-5 w-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary-400" />
-          <input
-            type="text"
-            placeholder="Search by quiz name or category..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="input-field pl-12"
-          />
-        </div>
+      <div className="bg-white shadow-sm rounded-xl p-4 relative">
+        <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search by quiz name or category..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+        />
       </div>
 
-      {/* Results List */}
-      <div className="card-premium">
+      {/* Quiz History */}
+      <div className="bg-white shadow-sm rounded-xl">
         {filteredAttempts.length > 0 ? (
           <>
-            {/* Header */}
-            <div className="px-8 py-6 border-b border-secondary-200">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-secondary-900">Quiz History</h2>
-                <Badge variant="secondary">
-                  {filteredAttempts.length} {filteredAttempts.length === 1 ? 'result' : 'results'}
-                </Badge>
-              </div>
+            <div className="px-4 py-4 border-b border-gray-200 flex justify-between items-center">
+              <h2 className="text-lg font-bold text-gray-900">Quiz History</h2>
+              <Badge variant="secondary" className="bg-gray-100 text-gray-700">
+                {filteredAttempts.length} {filteredAttempts.length === 1 ? 'result' : 'results'}
+              </Badge>
             </div>
 
-            {/* List */}
-            <div className="divide-y divide-secondary-200">
-              {filteredAttempts.map((attempt, index) => (
-                <div
-                  key={attempt.id}
-                  className="p-6 hover:bg-secondary-50"
-                 
-                >
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                    {/* Left Section - Quiz Info */}
-                    <div className="flex items-start gap-4 flex-1 min-w-0">
-                      <div className="text-4xl flex-shrink-0 ">
-                        {attempt.quiz.category.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-xl font-bold text-secondary-900 mb-2 truncate">
-                          {attempt.quiz.title}
-                        </h3>
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-secondary-600">
-                          <div className="flex items-center gap-1">
-                            <CalendarIcon className="h-4 w-4" />
-                            <span>{formatDate(attempt.finishedAt || attempt.startedAt)}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <ClockIcon className="h-4 w-4" />
-                            <span>{formatDuration(attempt.startedAt, attempt.finishedAt || attempt.startedAt)}</span>
-                          </div>
-                          <Badge variant="secondary" size="sm">
-                            {attempt.quiz.category.name}
-                          </Badge>
-                        </div>
+            <div className="divide-y divide-gray-200">
+              {filteredAttempts.map((attempt) => (
+                <div key={attempt.id} className="p-4 hover:bg-gray-50 flex flex-col lg:flex-row lg:justify-between gap-4">
+                  {/* Quiz Info */}
+                  <div className="flex items-start gap-4 flex-1 min-w-0">
+                    <div className="text-3xl flex-shrink-0">{attempt.quiz.category.icon}</div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-md font-semibold text-gray-900 truncate">{attempt.quiz.title}</h3>
+                      <div className="flex flex-wrap gap-2 text-xs text-gray-500 mt-1">
+                        <div className="flex items-center gap-1"><CalendarIcon className="h-4 w-4"/> {formatDate(attempt.finishedAt || attempt.startedAt)}</div>
+                        <div className="flex items-center gap-1"><ClockIcon className="h-4 w-4"/> {formatDuration(attempt.startedAt, attempt.finishedAt || attempt.startedAt)}</div>
+                        <Badge variant="secondary" className="bg-gray-100 text-gray-700">{attempt.quiz.category.name}</Badge>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Right Section - Stats and Actions */}
-                    <div className="flex items-center gap-6 flex-shrink-0">
-                      {/* Score Display */}
-                      <div className="text-center">
-                        <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl border-4 ${getScoreBgColor(attempt.percentage)} ${getScoreColor(attempt.percentage)}`}>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold">
-                              {Math.round(attempt.percentage)}%
-                            </div>
-                            <div className="text-xs font-semibold">
-                              {getScoreGrade(attempt.percentage)}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-xs text-secondary-600 mt-2">
-                          {attempt.score}/{attempt.totalPoints} pts
-                        </div>
-                      </div>
-
-                      {/* Quick Stats */}
-                      <div className="hidden md:flex flex-col gap-2">
-                        <div className="flex items-center gap-2">
-                          <div className="p-1.5 rounded-lg bg-accent-100">
-                          </div>
-                         
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="p-1.5 rounded-lg bg-danger-100">
-                          </div>
-                         
-                        </div>
-                      </div>
-
-                      {/* View Button */}
-                      <Link to={`/results/${attempt.id}`}>
-                        <Button variant="primary" size="md" className="gap-2">
-                          <EyeIcon className="h-4 w-4" />
-                          View Details
-                        </Button>
-                      </Link>
+                  {/* Score & View */}
+                  <div className="flex items-center gap-4 flex-shrink-0 mt-2 lg:mt-0">
+                    <div className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl border ${getScoreBgColor(attempt.percentage)} ${getScoreColor(attempt.percentage)} text-sm font-semibold`}>
+                      <div>{Math.round(attempt.percentage)}%</div>
+                      <div className="text-xs">{getScoreGrade(attempt.percentage)}</div>
                     </div>
+                    <Link to={`/results/${attempt.id}`}>
+                      <Button variant="outline" size="sm" className="gap-1">
+                        <EyeIcon className="h-4 w-4"/>
+                        View
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -325,81 +270,33 @@ const MyResults = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="px-8 py-6 border-t border-secondary-200">
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-sm text-secondary-600">
-                    Page {currentPage} of {totalPages} • {totalAttempts} total attempts
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage <= 1}
-                      className="gap-1"
-                    >
-                      <ChevronLeftIcon className="h-4 w-4" />
-                      Previous
-                    </Button>
-
-                    <div className="flex gap-1">
-                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                        const page = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i
-                        if (page > totalPages) return null
-                        return (
-                          <button
-                            key={page}
-                            onClick={() => handlePageChange(page)}
-                            className={`w-10 h-10 rounded-xl text-sm font-semibold transition-all ${
-                              currentPage === page
-                                ? 'bg-gradient-to-br from-primary-600 to-accent-600 text-white shadow-soft'
-                                : 'bg-white border border-secondary-300 text-secondary-700 hover:bg-secondary-50'
-                            }`}
-                          >
-                            {page}
-                          </button>
-                        )
-                      })}
-                    </div>
-
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage >= totalPages}
-                      className="gap-1"
-                    >
-                      Next
-                      <ChevronRightIcon className="h-4 w-4" />
-                    </Button>
-                  </div>
+              <div className="px-4 py-3 flex justify-between items-center text-gray-500">
+                <div>Page {currentPage} of {totalPages} • {totalAttempts} attempts</div>
+                <div className="flex gap-1">
+                  <Button variant="outline" size="sm" disabled={currentPage <= 1} onClick={() => handlePageChange(currentPage - 1)}><ChevronLeftIcon className="h-4 w-4"/></Button>
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    const page = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i
+                    if (page > totalPages) return null
+                    return (
+                      <button key={page} onClick={() => handlePageChange(page)} className={`w-8 h-8 rounded text-sm font-semibold ${currentPage === page ? 'bg-gray-700 text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-100'}`}>{page}</button>
+                    )
+                  })}
+                  <Button variant="outline" size="sm" disabled={currentPage >= totalPages} onClick={() => handlePageChange(currentPage + 1)}><ChevronRightIcon className="h-4 w-4"/></Button>
                 </div>
               </div>
             )}
           </>
         ) : (
-          <div className="text-center py-20">
-            <div className="inline-flex p-6 rounded-2xl bg-gradient-to-br from-primary-50 to-accent-50 mb-6">
-              {searchTerm ? (
-                <MagnifyingGlassIcon className="h-16 w-16 text-primary-600" />
-              ) : (
-                <TrophyIcon className="h-16 w-16 text-primary-600" />
-              )}
+          <div className="text-center py-16">
+            <div className="inline-flex p-4 rounded-xl bg-gray-100 mb-4">
+              {searchTerm ? <MagnifyingGlassIcon className="h-12 w-12 text-gray-500"/> : <TrophyIcon className="h-12 w-12 text-gray-500"/>}
             </div>
-            <h3 className="text-2xl font-bold text-secondary-900 mb-2">
-              {searchTerm ? 'No Results Found' : 'No Quiz Attempts Yet'}
-            </h3>
-            <p className="text-secondary-600 mb-8 max-w-md mx-auto">
-              {searchTerm
-                ? `No quiz results match "${searchTerm}". Try adjusting your search terms.`
-                : 'Start taking quizzes to see your results and track your learning progress here.'
-              }
-            </p>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">{searchTerm ? 'No Results Found' : 'No Quiz Attempts Yet'}</h3>
+            <p className="text-gray-500 mb-6">{searchTerm ? `No quiz results match "${searchTerm}".` : 'Start taking quizzes to track your learning.'}</p>
             {!searchTerm && (
               <Link to="/quizzes">
-                <Button variant="primary" size="lg" className="gap-2">
-                  <SparklesIcon className="h-5 w-5" />
+                <Button variant="primary" size="sm" className="gap-1">
+                  <SparklesIcon className="h-4 w-4"/>
                   Browse Quizzes
                 </Button>
               </Link>
