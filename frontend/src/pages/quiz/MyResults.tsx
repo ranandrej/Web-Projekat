@@ -248,13 +248,13 @@ const MyResults = () => {
               {filteredAttempts.map((attempt, index) => (
                 <div
                   key={attempt.id}
-                  className="p-6 hover:bg-secondary-50 transition-all animate-fade-in-up"
-                  style={{ animationDelay: `${index * 30}ms` }}
+                  className="p-6 hover:bg-secondary-50"
+                 
                 >
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                     {/* Left Section - Quiz Info */}
                     <div className="flex items-start gap-4 flex-1 min-w-0">
-                      <div className="text-4xl flex-shrink-0 animate-bounce-subtle">
+                      <div className="text-4xl flex-shrink-0 ">
                         {attempt.quiz.category.icon}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -300,19 +300,13 @@ const MyResults = () => {
                       <div className="hidden md:flex flex-col gap-2">
                         <div className="flex items-center gap-2">
                           <div className="p-1.5 rounded-lg bg-accent-100">
-                            <CheckCircleIcon className="h-4 w-4 text-accent-600" />
                           </div>
-                          <span className="text-sm text-secondary-700">
-                            {attempt.userAnswers.filter(ua => ua.isCorrect).length} correct
-                          </span>
+                         
                         </div>
                         <div className="flex items-center gap-2">
                           <div className="p-1.5 rounded-lg bg-danger-100">
-                            <XCircleIcon className="h-4 w-4 text-danger-600" />
                           </div>
-                          <span className="text-sm text-secondary-700">
-                            {attempt.userAnswers.filter(ua => !ua.isCorrect).length} wrong
-                          </span>
+                         
                         </div>
                       </div>
 

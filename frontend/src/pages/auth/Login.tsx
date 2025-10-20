@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '@/hooks/useAuth'
-import { EyeIcon, EyeSlashIcon, SparklesIcon, ShieldCheckIcon, BoltIcon } from '@heroicons/react/24/outline'
+import { EyeIcon, EyeSlashIcon, SparklesIcon, LockClosedIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
+  email: z.string().email('Please enter a valid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
@@ -21,7 +21,6 @@ const Login = () => {
   const { login, isLoading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-
   const from = location.state?.from?.pathname || '/dashboard'
 
   const {
@@ -35,214 +34,141 @@ const Login = () => {
   const onSubmit = async (data: LoginForm) => {
     try {
       const authData = await login(data)
-
-      // Check if user is admin and redirect accordingly
       const isAdmin = authData.user?.roles?.includes('Admin')
       const redirectPath = isAdmin ? '/admin' : (from !== '/dashboard' ? from : '/dashboard')
-
       navigate(redirectPath, { replace: true })
     } catch (error) {
-      // Error handling is done in useAuth hook
+      // Error handled in useAuth hook
     }
   }
 
-  const features = [
-    {
-      icon: SparklesIcon,
-      title: 'Smart Learning',
-      description: 'Personalized quiz recommendations'
-    },
-    {
-      icon: ShieldCheckIcon,
-      title: 'Secure & Private',
-      description: 'Your data is always protected'
-    },
-    {
-      icon: BoltIcon,
-      title: 'Instant Results',
-      description: 'Get feedback immediately'
-    }
-  ]
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center py-12 px-4">
-      <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
-        {/* Left Side - Branding */}
-        <div className="hidden lg:block space-y-8">
-          <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-indigo-700 text-sm font-medium rounded-full border border-white/30 mb-6">
-              <SparklesIcon className="h-4 w-4" />
-              Welcome Back
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50">
+      <div className="w-full max-w-md">
+        {/* Card */}
+        <div className="bg-white/90 backdrop-blur-xl rounded-[32px] shadow-2xl border border-white/40 p-10">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-[22px] bg-gradient-to-br from-violet-600 to-fuchsia-600 shadow-lg mb-6">
+              <LockClosedIcon className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-5xl font-bold text-gray-900 mb-4">
-              Continue Your{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Learning Journey</span>
-            </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              Sign in to access your personalized dashboard, track your progress, and compete with learners worldwide.
-            </p>
+            <h1 className="text-3xl font-black text-gray-900 mb-2">Welcome Back!</h1>
+            <p className="text-gray-600 text-lg">Sign in to continue your learning journey</p>
           </div>
 
-          {/* Features */}
-          <div className="space-y-4">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <div
-                  key={feature.title}
-                  className="flex items-start gap-4 p-6 rounded-2xl bg-white/70 backdrop-blur-sm border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
-                    <Icon className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">{feature.title}</h3>
-                    <p className="text-sm text-gray-600">{feature.description}</p>
-                  </div>
+          {/* Form */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Email Field */}
+            <div>
+              <Label htmlFor="email" required>Email Address</Label>
+              <div className="relative mt-2">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <EnvelopeIcon className="h-5 w-5 text-gray-400" />
                 </div>
-              )
-            })}
-          </div>
-
-          {/* Stats */}
-          <div className="flex items-center gap-8 pt-4">
-            <div>
-              <div className="text-3xl font-bold text-blue-600">10k+</div>
-              <div className="text-sm text-gray-600">Active Users</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-600">500+</div>
-              <div className="text-sm text-gray-600">Quizzes</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-gray-900">4.9★</div>
-              <div className="text-sm text-gray-600">User Rating</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Login Form */}
-        <div className="w-full max-w-md mx-auto lg:mx-0">
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/50">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg mb-4">
-                <SparklesIcon className="h-8 w-8 text-white" />
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Sign In</h2>
-              <p className="text-gray-600">Enter your credentials to continue</p>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              {/* Email Field */}
-              <div>
-                <Label htmlFor="email" required>Email Address</Label>
                 <Input
                   id="email"
                   type="email"
                   {...register('email')}
                   error={!!errors.email}
-                  placeholder="you@example.com"
-                  className="mt-1"
+                  placeholder="your@email.com"
+                  className="pl-12"
                 />
-                {errors.email && (
-                  <p className="input-error">{errors.email.message}</p>
-                )}
               </div>
-
-              {/* Password Field */}
-              <div>
-                <Label htmlFor="password" required>Password</Label>
-                <div className="relative mt-1">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    {...register('password')}
-                    error={!!errors.password}
-                    placeholder="Enter your password"
-                    className="pr-12"
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-secondary-400 hover:text-secondary-600 transition-colors"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeSlashIcon className="h-5 w-5" />
-                    ) : (
-                      <EyeIcon className="h-5 w-5" />
-                    )}
-                  </button>
-                </div>
-                {errors.password && (
-                  <p className="input-error">{errors.password.message}</p>
-                )}
-              </div>
-
-              {/* Remember & Forgot */}
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-4 focus:ring-blue-100 transition-all"
-                  />
-                  <span className="text-gray-600 group-hover:text-gray-900 transition-colors">
-                    Remember me
-                  </span>
-                </label>
-                <Link
-                  to="/forgot-password"
-                  className="text-blue-600 hover:text-blue-800 transition-colors text-sm"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                className="w-full h-12 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all hover:scale-105 shadow-lg"
-                size="lg"
-                isLoading={isLoading}
-                disabled={isLoading}
-              >
-                {isLoading ? 'Signing in...' : 'Sign In'}
-              </Button>
-            </form>
-
-            {/* Divider */}
-            <div className="relative my-8">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500">New to KvizHub?</span>
-              </div>
+              {errors.email && (
+                <p className="mt-2 text-sm text-red-600 font-medium">{errors.email.message}</p>
+              )}
             </div>
 
-            {/* Sign Up Link */}
-            <div className="text-center">
-              <p className="text-gray-600 mb-4">
-                Create an account and start learning today
-              </p>
-              <Link to="/register">
-                <Button className="w-full h-12 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold rounded-xl transition-all">
-                  Create Free Account
-                </Button>
+            {/* Password Field */}
+            <div>
+              <Label htmlFor="password" required>Password</Label>
+              <div className="relative mt-2">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                </div>
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  {...register('password')}
+                  error={!!errors.password}
+                  placeholder="Enter your password"
+                  className="pl-12 pr-12"
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" />
+                  )}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="mt-2 text-sm text-red-600 font-medium">{errors.password.message}</p>
+              )}
+            </div>
+
+            {/* Remember & Forgot */}
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  className="w-5 h-5 rounded-lg border-2 border-gray-300 text-violet-600 focus:ring-4 focus:ring-violet-200 transition-all"
+                />
+                <span className="text-gray-700 group-hover:text-gray-900 font-medium">Remember me</span>
+              </label>
+              <Link
+                to="/forgot-password"
+                className="text-violet-600 hover:text-violet-700 font-semibold text-sm transition-colors"
+              >
+                Forgot password?
               </Link>
             </div>
-          </div>
 
-          {/* Test Credentials Info */}
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-            <p className="text-sm text-blue-800 font-medium mb-2">Test Credentials:</p>
-            <div className="space-y-1 text-sm text-blue-700">
-              <p><strong>Admin:</strong> admin@kvizhub.com / Admin123!</p>
-              <p><strong>User:</strong> john.doe@example.com / Test123!</p>
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full btn-primary btn-lg"
+              isLoading={isLoading}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Signing in...' : (
+                <>
+                  <SparklesIcon className="h-5 w-5" />
+                  Sign In
+                </>
+              )}
+            </Button>
+          </form>
+
+          {/* Divider */}
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t-2 border-gray-200"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-white text-gray-500 font-semibold">New here?</span>
             </div>
           </div>
+
+          {/* Sign Up Link */}
+          <div className="text-center">
+            <p className="text-gray-600 mb-4">
+              Create an account and start learning today
+            </p>
+            <Link to="/register">
+              <Button className="w-full btn-secondary">
+                Create Free Account
+              </Button>
+            </Link>
+          </div>
         </div>
+
+        {/* Test Credentials */}
+      
       </div>
     </div>
   )

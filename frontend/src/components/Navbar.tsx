@@ -12,6 +12,7 @@ import {
   XMarkIcon,
   HomeIcon,
   AcademicCapIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline'
 import { cn } from '@/lib/utils'
 import authService from '@/services/authService'
@@ -54,26 +55,25 @@ const Navbar = () => {
   const navItems = user?.roles?.includes('Admin') ? adminNavItems : userNavItems
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-neutral-200">
+    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo & Brand */}
           <div className="flex items-center gap-12">
-            <Link to="/" className="flex items-center gap-2.5 group">
-              {/* Minimalist Logo */}
+            <Link to="/" className="flex items-center gap-3 group">
               <div className="relative">
-                <div className="w-9 h-9 bg-neutral-900 rounded-lg flex items-center justify-center group-hover:bg-indigo-600 transition-all duration-300">
-                  <span className="text-white text-lg font-black">Q</span>
+                <div className="w-11 h-11 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-[16px] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <SparklesIcon className="h-6 w-6 text-white" />
                 </div>
               </div>
-              <span className="text-xl font-bold text-neutral-900">
-                KvizHub
+              <span className="text-xl font-black text-gray-900">
+                QuizMaster <span className="gradient-text">Pro</span>
               </span>
             </Link>
 
             {/* Desktop Navigation */}
             {isAuthenticated && (
-              <div className="hidden lg:flex lg:gap-1">
+              <div className="hidden lg:flex lg:gap-2">
                 {navItems.map((item) => {
                   const Icon = item.icon
                   const active = isActive(item.to)
@@ -82,10 +82,10 @@ const Navbar = () => {
                       key={item.to}
                       to={item.to}
                       className={cn(
-                        'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                        'flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-200',
                         active
-                          ? 'bg-neutral-900 text-white'
-                          : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                          ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                       )}
                     >
                       <Icon className="h-4 w-4" />
@@ -103,17 +103,17 @@ const Navbar = () => {
               <>
                 {/* User Menu */}
                 <Menu as="div" className="relative">
-                  <Menu.Button className="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-neutral-100 transition-all duration-200">
-                    <div className="h-9 w-9 rounded-lg bg-neutral-900 flex items-center justify-center">
-                      <span className="text-white text-sm font-semibold">
+                  <Menu.Button className="flex items-center gap-3 px-4 py-2.5 rounded-2xl hover:bg-gray-100 transition-all duration-200">
+                    <div className="h-10 w-10 rounded-[14px] bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center shadow-lg">
+                      <span className="text-white text-sm font-black">
                         {user?.firstName?.[0]}{user?.lastName?.[0]}
                       </span>
                     </div>
                     <div className="hidden md:block text-left">
-                      <div className="text-sm font-semibold text-neutral-900">
+                      <div className="text-sm font-bold text-gray-900">
                         {user?.firstName} {user?.lastName}
                       </div>
-                      <div className="text-xs text-neutral-500">{user?.email}</div>
+                      <div className="text-xs text-gray-500 font-medium">{user?.email}</div>
                     </div>
                   </Menu.Button>
 
@@ -126,14 +126,14 @@ const Navbar = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 mt-3 w-64 origin-top-right bg-white rounded-2xl shadow-2xl border border-neutral-200 focus:outline-none overflow-hidden">
+                    <Menu.Items className="absolute right-0 mt-3 w-72 origin-top-right bg-white rounded-[24px] shadow-2xl border border-gray-200 focus:outline-none overflow-hidden">
                       {/* User Info Header */}
-                      <div className="px-5 py-4 border-b border-neutral-200">
-                        <div className="font-semibold text-neutral-900">{user?.firstName} {user?.lastName}</div>
-                        <div className="text-sm text-neutral-500 mt-0.5">{user?.email}</div>
+                      <div className="px-6 py-5 bg-gradient-to-br from-violet-50 to-fuchsia-50 border-b border-gray-200">
+                        <div className="font-bold text-gray-900">{user?.firstName} {user?.lastName}</div>
+                        <div className="text-sm text-gray-600 mt-1">{user?.email}</div>
                         {user?.roles && (
                           <div className="mt-3">
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-neutral-100 text-neutral-700">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white">
                               {user.roles[0]}
                             </span>
                           </div>
@@ -147,8 +147,8 @@ const Navbar = () => {
                             <Link
                               to="/profile"
                               className={cn(
-                                'flex items-center gap-3 px-5 py-2.5 text-sm font-medium transition-colors',
-                                active ? 'bg-neutral-100 text-neutral-900' : 'text-neutral-700'
+                                'flex items-center gap-3 px-6 py-3 text-sm font-bold transition-colors',
+                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
                               )}
                             >
                               <UserIcon className="h-5 w-5" />
@@ -163,8 +163,8 @@ const Navbar = () => {
                               <Link
                                 to="/admin"
                                 className={cn(
-                                  'flex items-center gap-3 px-5 py-2.5 text-sm font-medium transition-colors',
-                                  active ? 'bg-neutral-100 text-neutral-900' : 'text-neutral-700'
+                                  'flex items-center gap-3 px-6 py-3 text-sm font-bold transition-colors',
+                                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
                                 )}
                               >
                                 <CogIcon className="h-5 w-5" />
@@ -178,8 +178,8 @@ const Navbar = () => {
                               <Link
                                 to="/dashboard"
                                 className={cn(
-                                  'flex items-center gap-3 px-5 py-2.5 text-sm font-medium transition-colors',
-                                  active ? 'bg-neutral-100 text-neutral-900' : 'text-neutral-700'
+                                  'flex items-center gap-3 px-6 py-3 text-sm font-bold transition-colors',
+                                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
                                 )}
                               >
                                 <ChartBarIcon className="h-5 w-5" />
@@ -191,13 +191,13 @@ const Navbar = () => {
                       </div>
 
                       {/* Logout */}
-                      <div className="border-t border-neutral-200 py-2">
+                      <div className="border-t border-gray-200 py-2">
                         <Menu.Item>
                           {({ active }) => (
                             <button
                               onClick={handleLogout}
                               className={cn(
-                                'flex items-center gap-3 w-full px-5 py-2.5 text-sm font-medium transition-colors',
+                                'flex items-center gap-3 w-full px-6 py-3 text-sm font-bold transition-colors',
                                 active ? 'bg-red-50 text-red-700' : 'text-red-600'
                               )}
                             >
@@ -214,24 +214,24 @@ const Navbar = () => {
                 {/* Mobile Menu Button */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="lg:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+                  className="lg:hidden p-2 rounded-2xl hover:bg-gray-100 transition-colors"
                 >
                   {mobileMenuOpen ? (
-                    <XMarkIcon className="h-6 w-6 text-neutral-900" />
+                    <XMarkIcon className="h-6 w-6 text-gray-900" />
                   ) : (
-                    <Bars3Icon className="h-6 w-6 text-neutral-900" />
+                    <Bars3Icon className="h-6 w-6 text-gray-900" />
                   )}
                 </button>
               </>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Link to="/login">
-                  <Button className="h-10 px-5 bg-transparent border-2 border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold rounded-lg transition-all text-sm">
+                  <Button className="btn-secondary font-bold">
                     Sign In
                   </Button>
                 </Link>
                 <Link to="/register">
-                  <Button className="h-10 px-5 bg-neutral-900 hover:bg-neutral-800 text-white font-semibold rounded-lg transition-all text-sm">
+                  <Button className="btn-primary font-bold">
                     Get Started
                   </Button>
                 </Link>
@@ -242,8 +242,8 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isAuthenticated && mobileMenuOpen && (
-          <div className="lg:hidden pb-4 pt-2 border-t border-neutral-200">
-            <div className="flex flex-col space-y-1 mt-2">
+          <div className="lg:hidden pb-4 pt-2 border-t border-gray-200">
+            <div className="flex flex-col space-y-2 mt-2">
               {navItems.map((item) => {
                 const Icon = item.icon
                 const active = isActive(item.to)
@@ -253,10 +253,10 @@ const Navbar = () => {
                     to={item.to}
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(
-                      'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200',
+                      'flex items-center gap-3 px-5 py-3 rounded-2xl text-sm font-bold transition-all duration-200',
                       active
-                        ? 'bg-neutral-900 text-white'
-                        : 'text-neutral-700 hover:bg-neutral-100'
+                        ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg'
+                        : 'text-gray-700 hover:bg-gray-100'
                     )}
                   >
                     <Icon className="h-5 w-5" />

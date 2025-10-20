@@ -10,7 +10,9 @@ import {
   CheckIcon,
   FlagIcon,
   SparklesIcon,
-  ExclamationTriangleIcon
+  ExclamationTriangleIcon,
+  FireIcon,
+  BoltIcon,
 } from '@heroicons/react/24/outline'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -29,7 +31,6 @@ const TakeQuiz = () => {
   const { user } = useAuthStore()
   const { getQuizForTaking, submitQuizAttempt, loading } = useQuiz()
 
-  // Check if user is admin - redirect to quiz detail instead
   if (user?.roles?.includes('Admin')) {
     return <Navigate to={`/quizzes/${id}`} replace />
   }
@@ -48,7 +49,7 @@ const TakeQuiz = () => {
 
   useEffect(() => {
     if (quiz?.timeLimit) {
-      setTimeRemaining(quiz.timeLimit * 60) // Convert minutes to seconds
+      setTimeRemaining(quiz.timeLimit * 60)
     }
   }, [quiz])
 
@@ -72,14 +73,11 @@ const TakeQuiz = () => {
 
   const loadQuiz = async () => {
     if (!id) return
-
     const result = await getQuizForTaking(id)
     if (result) {
       setQuiz(result)
       setQuizStartTime(Date.now())
       setQuestionStartTime(Date.now())
-
-      // Initialize answers array
       const initialAnswers: QuizAnswer[] = result.questions?.map(q => ({
         questionId: q.id,
         selectedAnswerIds: [],
@@ -91,9 +89,7 @@ const TakeQuiz = () => {
   }
 
   const getCurrentQuestion = (): QuestionResponse | null => {
-    if (!quiz?.questions || currentQuestionIndex >= quiz.questions.length) {
-      return null
-    }
+    if (!quiz?.questions || currentQuestionIndex >= quiz.questions.length) return null
     return quiz.questions[currentQuestionIndex]
   }
 
@@ -105,16 +101,13 @@ const TakeQuiz = () => {
 
   const updateAnswer = useCallback((questionId: string, selectedAnswerIds: string[]) => {
     setAnswers(prev => prev.map(answer =>
-      answer.questionId === questionId
-        ? { ...answer, selectedAnswerIds }
-        : answer
+      answer.questionId === questionId ? { ...answer, selectedAnswerIds } : answer
     ))
   }, [])
 
   const handleAnswerSelect = (answerId: string) => {
     const currentQuestion = getCurrentQuestion()
     if (!currentQuestion) return
-
     const currentAnswer = getCurrentAnswer()
     if (!currentAnswer) return
 
@@ -131,18 +124,14 @@ const TakeQuiz = () => {
   const handleTextAnswerChange = (text: string) => {
     const currentQuestion = getCurrentQuestion()
     if (!currentQuestion) return
-
     setAnswers(prev => prev.map(answer =>
-      answer.questionId === currentQuestion.id
-        ? { ...answer, textAnswer: text }
-        : answer
+      answer.questionId === currentQuestion.id ? { ...answer, textAnswer: text } : answer
     ))
   }
 
   const updateQuestionTime = useCallback(() => {
     const currentQuestion = getCurrentQuestion()
     if (!currentQuestion) return
-
     const timeSpent = Date.now() - questionStartTime
     setAnswers(prev => prev.map(answer =>
       answer.questionId === currentQuestion.id
@@ -153,7 +142,6 @@ const TakeQuiz = () => {
 
   const goToQuestion = (index: number) => {
     if (index < 0 || !quiz?.questions || index >= quiz.questions.length) return
-
     updateQuestionTime()
     setCurrentQuestionIndex(index)
     setQuestionStartTime(Date.now())
@@ -164,7 +152,6 @@ const TakeQuiz = () => {
 
   const handleSubmitQuiz = async () => {
     if (isSubmitting || !quiz || !id) return
-
     setIsSubmitting(true)
     updateQuestionTime()
 
@@ -172,21 +159,17 @@ const TakeQuiz = () => {
       const submitData: SubmitQuizAttemptRequest = {
         answers: answers.map(answer => {
           const question = quiz.questions?.find(q => q.id === answer.questionId)
-
           if (question?.type === QuestionType.SHORT_ANSWER) {
-            // For text answers, we need to match against the correct answer
-            const correctAnswer = question.answers[0] // Assuming first answer is the correct one
+            const correctAnswer = question.answers[0]
             const selectedIds = answer.textAnswer?.trim() === correctAnswer?.answerText?.trim()
               ? [correctAnswer.id]
               : []
-
             return {
               questionId: answer.questionId,
               selectedAnswerIds: selectedIds,
               timeSpent: answer.timeSpent
             }
           }
-
           return {
             questionId: answer.questionId,
             selectedAnswerIds: answer.selectedAnswerIds,
@@ -199,7 +182,6 @@ const TakeQuiz = () => {
 
       const result = await submitQuizAttempt(id, submitData)
       if (result) {
-        // Navigate to results page with the actual attempt ID
         navigate(`/results/${result.id}`)
       } else {
         setIsSubmitting(false)
@@ -216,37 +198,11 @@ const TakeQuiz = () => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 
-  const getQuestionTypeLabel = (type: QuestionType): string => {
-    switch (type) {
-      case QuestionType.MULTIPLE_CHOICE:
-        return 'Single Choice'
-      case QuestionType.TRUE_FALSE:
-        return 'True/False'
-      case QuestionType.MULTIPLE_SELECT:
-        return 'Multiple Choice'
-      case QuestionType.SHORT_ANSWER:
-        return 'Short Answer'
-      default:
-        return 'Unknown'
-    }
-  }
-
-  const getQuestionTypeIcon = (type: QuestionType) => {
-    switch (type) {
-      case QuestionType.MULTIPLE_SELECT:
-        return <CheckIcon className="h-4 w-4" />
-      case QuestionType.SHORT_ANSWER:
-        return <SparklesIcon className="h-4 w-4" />
-      default:
-        return null
-    }
-  }
-
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center">
         <Spinner size="lg" />
-        <p className="mt-4 text-secondary-600 text-lg">Loading quiz...</p>
+        <p className="mt-4 text-gray-600 text-lg font-semibold">Loading quiz...</p>
       </div>
     )
   }
@@ -254,12 +210,12 @@ const TakeQuiz = () => {
   if (!quiz) {
     return (
       <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-flex p-6 rounded-full bg-danger-100 mb-6">
-            <ExclamationTriangleIcon className="h-16 w-16 text-danger-600" />
+        <div className="text-center card-premium p-12">
+          <div className="inline-flex p-6 rounded-full bg-red-100 mb-6">
+            <ExclamationTriangleIcon className="h-16 w-16 text-red-600" />
           </div>
-          <h2 className="text-2xl font-bold text-secondary-900 mb-2">Quiz Not Found</h2>
-          <p className="text-secondary-600 mb-8">The quiz failed to load or doesn't exist.</p>
+          <h2 className="text-2xl font-black text-gray-900 mb-2">Quiz Not Found</h2>
+          <p className="text-gray-600 mb-8">The quiz failed to load or doesn't exist.</p>
           <Button variant="primary" onClick={() => navigate('/quizzes')}>
             Back to Quizzes
           </Button>
@@ -274,34 +230,37 @@ const TakeQuiz = () => {
   const answeredCount = answers.filter(a =>
     a.selectedAnswerIds.length > 0 || (a.textAnswer?.trim() || '').length > 0
   ).length
-  const isTimeWarning = timeRemaining !== null && timeRemaining < 300 // Less than 5 minutes
+  const isTimeWarning = timeRemaining !== null && timeRemaining < 300
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] bg-gradient-to-br from-secondary-50 via-white to-primary-50 -m-8 p-8">
-      <div className="max-w-5xl mx-auto space-y-4">
-        {/* Compact Header Bar */}
-        <div className="card-premium p-4">
+    <div className="min-h-[calc(100vh-5rem)] -m-8 p-8">
+      <div className="max-w-5xl mx-auto space-y-5">
+        {/* Header Bar */}
+        <div className="card-premium p-5">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4 flex-1 min-w-0">
-              <div className="text-3xl flex-shrink-0">{quiz.category.icon}</div>
+              <div className="text-4xl">{quiz.category.icon}</div>
               <div className="min-w-0 flex-1">
-                <h1 className="text-xl font-bold text-secondary-900 truncate">{quiz.title}</h1>
-                <div className="flex items-center gap-2 text-sm text-secondary-600">
+                <h1 className="text-xl font-black text-gray-900 truncate">{quiz.title}</h1>
+                <div className="flex items-center gap-3 text-sm text-gray-600 font-semibold">
                   <span>Question {currentQuestionIndex + 1} of {quiz.questions?.length || 0}</span>
-                  <span className="text-secondary-400">•</span>
-                  <span>{answeredCount} answered</span>
+                  <span>•</span>
+                  <div className="flex items-center gap-1">
+                    <CheckIcon className="h-4 w-4 text-teal-600" />
+                    <span>{answeredCount} answered</span>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Timer */}
             {timeRemaining !== null && (
-              <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-lg ${
+              <div className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-black text-lg shadow-lg ${
                 isTimeWarning
-                  ? 'bg-danger-100 border-2 border-danger-300 text-danger-700 animate-pulse'
-                  : 'bg-accent-50 border border-accent-200 text-accent-700'
+                  ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white animate-pulse'
+                  : 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white'
               }`}>
-                <ClockIcon className="h-5 w-5" />
+                <ClockIcon className="h-6 w-6" />
                 <span>{formatTime(timeRemaining)}</span>
               </div>
             )}
@@ -309,13 +268,13 @@ const TakeQuiz = () => {
 
           {/* Progress Bar */}
           <div className="mt-4 relative">
-            <div className="w-full h-3 bg-secondary-200 rounded-full overflow-hidden">
+            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-primary-600 to-accent-600 transition-all duration-500 ease-out rounded-full shadow-soft"
+                className="h-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 transition-all duration-500 rounded-full shadow-lg"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <div className="absolute right-0 -top-6 text-xs font-semibold text-primary-600">
+            <div className="absolute right-0 -top-6 text-xs font-black text-violet-600 bg-violet-100 px-2 py-1 rounded-lg">
               {Math.round(progress)}%
             </div>
           </div>
@@ -327,25 +286,27 @@ const TakeQuiz = () => {
             {/* Question Header */}
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-start gap-4">
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary-600 to-accent-600 text-white text-xl font-bold shadow-soft flex-shrink-0">
+                <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white text-xl font-black shadow-lg">
                   {currentQuestionIndex + 1}
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Badge variant="primary" size="sm" className="gap-1">
-                      {getQuestionTypeIcon(currentQuestion.type)}
-                      {getQuestionTypeLabel(currentQuestion.type)}
-                    </Badge>
-                    <Badge variant="accent" size="sm">
+                    <Badge variant="primary" size="md" className="gap-1">
+                      <BoltIcon className="h-4 w-4" />
                       {currentQuestion.points} {currentQuestion.points !== 1 ? 'points' : 'point'}
                     </Badge>
+                    {currentQuestion.type === QuestionType.MULTIPLE_SELECT && (
+                      <Badge variant="accent" size="md">
+                        Multiple Choice
+                      </Badge>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Question Text */}
-            <h2 className="text-2xl font-bold text-secondary-900 mb-8 leading-relaxed">
+            <h2 className="text-2xl font-black text-gray-900 mb-8 leading-relaxed">
               {currentQuestion.questionText}
             </h2>
 
@@ -357,41 +318,40 @@ const TakeQuiz = () => {
                     type="text"
                     value={currentAnswer?.textAnswer || ''}
                     onChange={(e) => handleTextAnswerChange(e.target.value)}
-                    className="input-field text-lg py-4 px-5"
+                    className="w-full text-lg py-5 px-6 bg-white border-2 border-gray-300 rounded-2xl focus:outline-none focus:ring-4 focus:ring-violet-200 focus:border-violet-500 font-medium"
                     placeholder="Type your answer here..."
                     autoFocus
                   />
                 </div>
-                <div className="flex items-start gap-2 p-4 bg-accent-50 border border-accent-200 rounded-xl">
-                  <SparklesIcon className="h-5 w-5 text-accent-600 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-accent-800">
+                <div className="flex items-start gap-2 p-5 bg-gradient-to-r from-cyan-50 to-teal-50 border-2 border-teal-200 rounded-2xl">
+                  <SparklesIcon className="h-5 w-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-teal-800 font-semibold">
                     Enter your answer carefully. Spelling and capitalization may matter.
                   </p>
                 </div>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {currentQuestion.answers.map((answer, index) => {
                   const isSelected = currentAnswer?.selectedAnswerIds.includes(answer.id) || false
                   const isMultiSelect = currentQuestion.type === QuestionType.MULTIPLE_SELECT
-                  const isTrueFalse = currentQuestion.type === QuestionType.TRUE_FALSE
 
                   return (
                     <div
                       key={answer.id}
                       onClick={() => handleAnswerSelect(answer.id)}
-                      className={`group flex items-center gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                      className={`group flex items-center gap-4 p-6 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${
                         isSelected
-                          ? 'bg-gradient-to-r from-primary-50 to-accent-50 border-primary-400 shadow-soft scale-[1.01]'
-                          : 'bg-white/80 border-secondary-200 hover:border-primary-300 hover:bg-secondary-50 hover:shadow-soft'
+                          ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-400 shadow-xl scale-[1.02]'
+                          : 'bg-white border-gray-200 hover:border-violet-300 hover:bg-violet-50 hover:shadow-lg'
                       }`}
                     >
                       {/* Selection Indicator */}
                       <div className="relative flex items-center justify-center flex-shrink-0">
-                        <div className={`w-6 h-6 ${isMultiSelect ? 'rounded-lg' : 'rounded-full'} border-2 flex items-center justify-center transition-all ${
+                        <div className={`w-7 h-7 ${isMultiSelect ? 'rounded-xl' : 'rounded-full'} border-2 flex items-center justify-center transition-all ${
                           isSelected
-                            ? 'border-primary-600 bg-primary-600 shadow-soft'
-                            : 'border-secondary-300 group-hover:border-primary-400 bg-white'
+                            ? 'border-violet-600 bg-gradient-to-br from-violet-600 to-fuchsia-600 shadow-lg'
+                            : 'border-gray-300 group-hover:border-violet-400 bg-white'
                         }`}>
                           {isSelected && (
                             <CheckIcon className="h-4 w-4 text-white" strokeWidth={3} />
@@ -399,23 +359,20 @@ const TakeQuiz = () => {
                         </div>
                       </div>
 
-                      {/* Answer Letter/Number */}
-                      <div className={`flex items-center justify-center w-8 h-8 rounded-lg font-bold text-sm flex-shrink-0 ${
+                      {/* Answer Letter */}
+                      <div className={`flex items-center justify-center w-10 h-10 rounded-xl font-black text-sm flex-shrink-0 ${
                         isSelected
-                          ? 'bg-primary-600 text-white'
-                          : 'bg-secondary-100 text-secondary-600 group-hover:bg-primary-100 group-hover:text-primary-700'
+                          ? 'bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white shadow-lg'
+                          : 'bg-gray-100 text-gray-700 group-hover:bg-violet-100 group-hover:text-violet-700'
                       }`}>
-                        {isTrueFalse
-                          ? (index === 0 ? 'T' : 'F')
-                          : String.fromCharCode(65 + index)
-                        }
+                        {String.fromCharCode(65 + index)}
                       </div>
 
                       {/* Answer Text */}
-                      <span className={`flex-1 text-lg ${
+                      <span className={`flex-1 text-lg font-semibold ${
                         isSelected
-                          ? 'text-secondary-900 font-semibold'
-                          : 'text-secondary-700 group-hover:text-secondary-900'
+                          ? 'text-gray-900'
+                          : 'text-gray-700 group-hover:text-gray-900'
                       }`}>
                         {answer.answerText}
                       </span>
@@ -425,9 +382,9 @@ const TakeQuiz = () => {
 
                 {/* Helper Text */}
                 {currentQuestion.type === QuestionType.MULTIPLE_SELECT && (
-                  <div className="flex items-start gap-2 p-4 bg-primary-50 border border-primary-200 rounded-xl mt-4">
-                    <CheckIcon className="h-5 w-5 text-primary-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-primary-800">
+                  <div className="flex items-start gap-2 p-5 bg-gradient-to-r from-violet-50 to-purple-50 border-2 border-violet-200 rounded-2xl mt-4">
+                    <CheckIcon className="h-5 w-5 text-violet-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-violet-800 font-semibold">
                       Multiple answers are correct. Select all that apply.
                     </p>
                   </div>
@@ -438,7 +395,7 @@ const TakeQuiz = () => {
         )}
 
         {/* Navigation Footer */}
-        <div className="card-premium p-4">
+        <div className="card-premium p-5">
           <div className="flex items-center justify-between gap-4">
             {/* Previous Button */}
             <Button
@@ -464,12 +421,12 @@ const TakeQuiz = () => {
                   <button
                     key={index}
                     onClick={() => goToQuestion(index)}
-                    className={`w-10 h-10 rounded-xl text-sm font-bold transition-all duration-200 ${
+                    className={`w-11 h-11 rounded-xl text-sm font-black transition-all duration-200 ${
                       index === currentQuestionIndex
-                        ? 'bg-gradient-to-br from-primary-600 to-accent-600 text-white shadow-soft scale-110'
+                        ? 'bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white shadow-xl scale-110'
                         : isAnswered
-                        ? 'bg-accent-100 text-accent-700 border-2 border-accent-300 hover:scale-105'
-                        : 'bg-secondary-100 text-secondary-600 border border-secondary-300 hover:bg-secondary-200 hover:scale-105'
+                        ? 'bg-gradient-to-br from-teal-100 to-emerald-100 text-teal-700 border-2 border-teal-300 hover:scale-110'
+                        : 'bg-gray-100 text-gray-600 border-2 border-gray-200 hover:bg-gray-200 hover:scale-110'
                     }`}
                     title={`Question ${index + 1}${isAnswered ? ' (answered)' : ''}`}
                   >
@@ -487,7 +444,7 @@ const TakeQuiz = () => {
                 onClick={handleSubmitQuiz}
                 disabled={isSubmitting}
                 isLoading={isSubmitting}
-                className="gap-2 min-w-[140px]"
+                className="gap-2 min-w-[160px]"
               >
                 <FlagIcon className="h-5 w-5" />
                 Submit Quiz
@@ -497,12 +454,25 @@ const TakeQuiz = () => {
                 variant="primary"
                 size="md"
                 onClick={goToNext}
-                className="gap-2 min-w-[140px]"
+                className="gap-2 min-w-[160px]"
               >
                 Next
                 <ChevronRightIcon className="h-5 w-5" />
               </Button>
             )}
+          </div>
+        </div>
+
+        {/* Progress Indicator */}
+        <div className="card p-4 bg-gradient-to-r from-violet-50 to-fuchsia-50 border-2 border-violet-200">
+          <div className="flex items-center justify-between text-sm font-bold">
+            <div className="flex items-center gap-2 text-violet-700">
+              <FireIcon className="h-5 w-5" />
+              <span>{answeredCount}/{quiz.questions?.length} questions answered</span>
+            </div>
+            <div className="text-gray-600">
+              Keep going! 🚀
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import { useAuthStore } from '@/stores/authStore'
 import { useEffect } from 'react'
 import authService from '@/services/authService'
+import SparklesIcon from '@heroicons/react/24/outline/SparklesIcon'
 
 const Layout = () => {
   const { isAuthenticated, token, setUser, clearAuth } = useAuthStore()
@@ -50,23 +51,34 @@ const Layout = () => {
 
       {/* Footer */}
       {!isHomePage && (
-        <footer className="mt-auto py-8 border-t border-secondary-200/50 bg-white/50 backdrop-blur-sm">
+        <footer className="mt-auto py-10 border-t-2 border-gray-200 bg-white/80 backdrop-blur-xl">
           <div className="container-custom">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-                  KvizHub
-                </span>
-                <span className="text-secondary-500 text-sm">
-                  © 2024 All rights reserved
-                </span>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              
+              {/* Brand */}
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-[16px] flex items-center justify-center shadow-lg">
+                  <SparklesIcon className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <div className="text-xl font-black text-gray-900">
+                    QuizMaster <span className="gradient-text">Pro</span>
+                  </div>
+                  <div className="text-xs text-gray-600 font-medium">
+                    © 2025 All rights reserved
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-6 text-sm text-secondary-600">
-                <a href="#" className="hover:text-primary-600 transition-colors">About</a>
-                <a href="#" className="hover:text-primary-600 transition-colors">Privacy</a>
-                <a href="#" className="hover:text-primary-600 transition-colors">Terms</a>
-                <a href="#" className="hover:text-primary-600 transition-colors">Contact</a>
+
+              {/* Links */}
+              <div className="flex items-center gap-8 text-sm font-semibold text-gray-600">
+                <a href="#" className="hover:text-violet-600 transition-colors">About</a>
+                <a href="#" className="hover:text-violet-600 transition-colors">Privacy</a>
+                <a href="#" className="hover:text-violet-600 transition-colors">Terms</a>
+                <a href="#" className="hover:text-violet-600 transition-colors">Contact</a>
               </div>
+
+             
             </div>
           </div>
         </footer>

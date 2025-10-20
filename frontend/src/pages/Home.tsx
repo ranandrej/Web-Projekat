@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
 import {
   SparklesIcon,
+  RocketLaunchIcon,
   TrophyIcon,
   ChartBarIcon,
+  UserGroupIcon,
   AcademicCapIcon,
-  UsersIcon,
-  ClockIcon,
+  BoltIcon,
   ShieldCheckIcon,
-  RocketLaunchIcon,
   ArrowRightIcon,
 } from '@heroicons/react/24/outline'
 import { Button } from '@/components/ui/button'
@@ -18,277 +18,190 @@ const Home = () => {
 
   const features = [
     {
-      name: 'Interactive Quizzes',
-      description: 'Engage with dynamic quizzes featuring multiple question types and instant feedback.',
-      icon: AcademicCapIcon,
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50',
+      name: 'Smart Learning System',
+      description: 'AI-powered quiz recommendations tailored to your learning pace and style.',
+      icon: SparklesIcon,
+      gradient: 'from-violet-500 to-purple-500',
     },
     {
-      name: 'Global Leaderboards',
-      description: 'Compete globally and track your ranking against thousands of quiz takers.',
+      name: 'Real-Time Competition',
+      description: 'Compete with learners worldwide and climb the global leaderboards.',
       icon: TrophyIcon,
-      color: 'text-rose-600',
-      bgColor: 'bg-rose-50',
+      gradient: 'from-amber-500 to-orange-500',
     },
     {
       name: 'Advanced Analytics',
-      description: 'Gain deep insights into your performance with comprehensive statistics.',
+      description: 'Track your progress with detailed insights and performance metrics.',
       icon: ChartBarIcon,
-      color: 'text-teal-600',
-      bgColor: 'bg-teal-50',
+      gradient: 'from-cyan-500 to-blue-500',
     },
     {
-      name: 'Real-time Progress',
-      description: 'Monitor your improvement with live progress tracking and personalized recommendations.',
-      icon: ClockIcon,
-      color: 'text-violet-600',
-      bgColor: 'bg-violet-50',
+      name: 'Lightning Fast',
+      description: 'Instant results and real-time scoring for immediate feedback.',
+      icon: BoltIcon,
+      gradient: 'from-yellow-500 to-red-500',
     },
   ]
 
-  const benefits = [
-    {
-      icon: RocketLaunchIcon,
-      title: 'Instant Start',
-      description: 'Jump right in and start taking quizzes within seconds of signing up.',
-    },
-    {
-      icon: ShieldCheckIcon,
-      title: 'Verified Content',
-      description: 'All quizzes are carefully curated to ensure accuracy and quality.',
-    },
-    {
-      icon: UsersIcon,
-      title: 'Active Community',
-      description: 'Join a thriving community of learners and knowledge enthusiasts.',
-    },
+  const stats = [
+    { label: 'Active Learners', value: '50K+', icon: UserGroupIcon },
+    { label: 'Expert Quizzes', value: '1,200+', icon: AcademicCapIcon },
+    { label: 'Questions Solved', value: '2M+', icon: SparklesIcon },
+    { label: 'Success Rate', value: '94%', icon: ShieldCheckIcon },
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-  {/* Hero Section */}
-  <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700">
-    <div className="absolute inset-0 bg-black/10"></div>
-    <div className="absolute inset-0 bg-dots"></div>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+        
+        <div className="relative container-custom py-24 md:py-32">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-semibold mb-8 animate-fade-in-up">
+              <SparklesIcon className="h-5 w-5" />
+              The Future of Learning
+            </div>
 
+            <h1 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              Master Any Subject<br />
+              <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+                Through Challenges
+              </span>
+            </h1>
 
-    <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40">
-      <div className="max-w-4xl">
-        {/* Small Label */}
-        <div className="inline-block mb-8">
-          <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white text-sm font-medium uppercase tracking-wider rounded-full border border-white/20">
-            <SparklesIcon className="h-4 w-4" />
-            <span>Quiz Platform</span>
-          </div>
-        </div>
+            <p className="text-xl md:text-2xl text-purple-100 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              Join thousands of learners taking interactive quizzes, competing globally, and achieving their learning goals faster than ever.
+            </p>
 
-        {/* Large Heading */}
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[0.95] tracking-tight">
-          Learn Through
-          <br />
-          <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-            Testing
-          </span>
-        </h1>
-
-        {/* Description */}
-        <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-2xl font-light leading-relaxed">
-          Challenge yourself with interactive quizzes, compete on global leaderboards, and track your learning journey.
-        </p>
-
-        {/* CTA Section */}
-        <div className="flex flex-wrap gap-4 items-center">
-          {isAuthenticated ? (
-            <>
-              {user?.roles?.includes('Admin') ? (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              {isAuthenticated ? (
                 <>
-                  <Link to="/admin/quizzes">
-                    <Button className="h-14 px-8 bg-white text-indigo-600 hover:bg-blue-50 font-semibold rounded-full transition-all hover:scale-105 shadow-lg">
-                      Manage Quizzes
-                    </Button>
-                  </Link>
-                  <Link to="/admin">
-                    <Button className="h-14 px-8 bg-transparent border-2 border-white text-white hover:bg-white hover:text-indigo-600 font-semibold rounded-full transition-all">
-                      Admin Dashboard
-                    </Button>
-                  </Link>
+                  {user?.roles?.includes('Admin') ? (
+                    <>
+                      <Link to="/admin">
+                        <Button className="btn-lg bg-white text-violet-600 hover:bg-gray-50 hover:text-violet-700 shadow-2xl border-0">
+                          <RocketLaunchIcon className="h-6 w-6" />
+                          Admin Dashboard
+                        </Button>
+                      </Link>
+                      <Link to="/admin/quizzes">
+                        <Button className="btn-lg bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm">
+                          Manage Content
+                          <ArrowRightIcon className="h-5 w-5" />
+                        </Button>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/quizzes">
+                        <Button className="btn-lg bg-white text-violet-600 hover:bg-gray-50 hover:text-violet-700 shadow-2xl border-0">
+                          <RocketLaunchIcon className="h-6 w-6" />
+                          Explore Quizzes
+                        </Button>
+                      </Link>
+                      <Link to="/dashboard">
+                        <Button className="btn-lg bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm">
+                          My Dashboard
+                          <ArrowRightIcon className="h-5 w-5" />
+                        </Button>
+                      </Link>
+                    </>
+                  )}
                 </>
               ) : (
                 <>
-                  <Link to="/quizzes">
-                    <Button className="h-14 px-8 bg-white text-indigo-600 hover:bg-blue-50 font-semibold rounded-full transition-all hover:scale-105 shadow-lg">
-                      Browse Quizzes
+                  <Link to="/register">
+                    <Button className="btn-lg bg-white text-violet-600 hover:bg-gray-50 hover:text-violet-700 shadow-2xl border-0">
+                      <RocketLaunchIcon className="h-6 w-6" />
+                      Start Free Today
                     </Button>
                   </Link>
-                  <Link to="/dashboard">
-                    <Button className="h-14 px-8 bg-transparent border-2 border-white text-white hover:bg-white hover:text-indigo-600 font-semibold rounded-full transition-all">
-                      My Dashboard
+                  <Link to="/login">
+                    <Button className="btn-lg bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm">
+                      Sign In
+                      <ArrowRightIcon className="h-5 w-5" />
                     </Button>
                   </Link>
                 </>
               )}
-            </>
-          ) : (
-            <>
-              <Link to="/register">
-                <Button className="h-14 px-8 bg-white text-indigo-600 hover:bg-blue-50 font-semibold rounded-full transition-all hover:scale-105 shadow-lg">
-                  Get Started
-                </Button>
-              </Link>
-              <Link to="/login">
-                <Button className="h-14 px-8 bg-transparent border-2 border-white text-white hover:bg-white hover:text-indigo-600 font-semibold rounded-full transition-all">
-                  Sign In
-                </Button>
-              </Link>
-            </>
-          )}
-        </div>
-
-        {/* Stats Row */}
-        <div className="mt-16 flex flex-wrap gap-x-12 gap-y-4 text-sm">
-          <div>
-            <div className="text-2xl font-bold text-white">10K+</div>
-            <div className="text-blue-200">Active Users</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-white">500+</div>
-            <div className="text-blue-200">Quizzes</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-white">100K+</div>
-            <div className="text-blue-200">Completions</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* Features Grid */}
-  <div className="py-24 md:py-32 bg-white">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="mb-20 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">
-          Built for learners
-        </h2>
-        <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-          Everything you need to succeed in one powerful platform
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {features.map((feature) => (
-          <div
-            key={feature.name}
-            className="group relative bg-gradient-to-br from-white to-gray-50 p-8 rounded-2xl border border-gray-100 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1"
-          >
-            <div
-              className={`inline-flex p-4 rounded-xl ${feature.bgColor} mb-6 group-hover:scale-110 transition-transform duration-300`}
-            >
-              <feature.icon className={`h-8 w-8 ${feature.color}`} />
             </div>
-            <h3 className="text-xl font-bold text-neutral-900 mb-3">{feature.name}</h3>
-            <p className="text-neutral-600 leading-relaxed">{feature.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
 
-  {/* Benefits Section */}
-  <div className="py-24 md:py-32 bg-gradient-to-br from-gray-50 to-blue-50">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
-          Why choose our platform?
-        </h2>
-        <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-          Join thousands of learners who trust our platform for their educational journey
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {benefits.map((benefit) => (
-          <div
-            key={benefit.title}
-            className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:shadow-gray-200/50 transition-all duration-300 hover:-translate-y-2"
-          >
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl text-white group-hover:scale-110 transition-transform duration-300">
-                <benefit.icon className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-bold text-neutral-900">{benefit.title}</h3>
-              <p className="text-neutral-600 leading-relaxed">{benefit.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-
-  {/* Social Proof */}
-  <div className="py-24 md:py-32 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="bg-white/10 backdrop-blur-sm rounded-[40px] p-12 md:p-20 text-white overflow-hidden relative border border-white/20">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-
-        <div className="relative text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Join the community</h2>
-          <p className="text-xl text-white/80 mb-16 max-w-2xl mx-auto">
-            Thousands of learners are already improving their skills every day
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="group">
-              <div className="text-6xl md:text-7xl font-bold mb-3 text-white group-hover:scale-110 transition-transform duration-300">
-                10K+
-              </div>
-              <div className="text-lg text-white/70">Active Learners</div>
-            </div>
-            <div className="group">
-              <div className="text-6xl md:text-7xl font-bold mb-3 text-white group-hover:scale-110 transition-transform duration-300">
-                500+
-              </div>
-              <div className="text-lg text-white/70">Expert Quizzes</div>
-            </div>
-            <div className="group">
-              <div className="text-6xl md:text-7xl font-bold mb-3 text-white group-hover:scale-110 transition-transform duration-300">
-                100K+
-              </div>
-              <div className="text-lg text-white/70">Questions Solved</div>
+            {/* Stats Row */}
+            <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              {stats.map((stat, index) => {
+                const Icon = stat.icon
+                return (
+                  <div key={index} className="text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm mb-3">
+                      <Icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div className="text-3xl md:text-4xl font-black text-white mb-1">{stat.value}</div>
+                    <div className="text-purple-200 text-sm font-medium">{stat.label}</div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  {/* Final CTA */}
-  {!isAuthenticated && (
-    <div className="py-24 md:py-32 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-      <div className="absolute inset-0 bg-dots"></div>
+      {/* Features Section */}
+      <div className="py-24 md:py-32 bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+              Why Choose <span className="gradient-text">QuizMaster Pro</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Everything you need to accelerate your learning journey in one powerful platform
+            </p>
+          </div>
 
-
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-          Ready to start your learning journey?
-        </h2>
-        <p className="text-xl text-purple-100 mb-12 max-w-2xl mx-auto">
-          Create your free account and take your first quiz in under a minute
-        </p>
-        <Link to="/register">
-          <Button className="h-16 px-12 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-slate-900 text-lg font-semibold rounded-full transition-all hover:scale-105 shadow-2xl hover:shadow-yellow-500/25">
-            Create Free Account
-            <ArrowRightIcon className="h-5 w-5 ml-2" />
-          </Button>
-        </Link>
-        <p className="text-purple-200 mt-8">No credit card required • Free forever</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => {
+              const Icon = feature.icon
+              return (
+                <div
+                  key={index}
+                  className="group relative bg-white rounded-[28px] p-8 border-2 border-gray-100 hover:border-violet-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl animate-scale-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${feature.gradient} mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.name}</h3>
+                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
       </div>
-    </div>
-  )}
-</div>
 
+      {/* CTA Section */}
+      {!isAuthenticated && (
+        <div className="py-24 md:py-32 bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+          
+          <div className="relative container-custom text-center">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
+              Ready to Start Your Journey?
+            </h2>
+            <p className="text-xl text-purple-100 mb-12 max-w-2xl mx-auto">
+              Join our community and unlock your full learning potential today
+            </p>
+            <Link to="/register">
+              <Button className="btn-lg bg-white text-violet-600 hover:bg-gray-50 shadow-2xl border-0">
+                <RocketLaunchIcon className="h-6 w-6" />
+                Create Free Account
+              </Button>
+            </Link>
+            <p className="text-purple-200 mt-6">No credit card required • Free forever</p>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 
